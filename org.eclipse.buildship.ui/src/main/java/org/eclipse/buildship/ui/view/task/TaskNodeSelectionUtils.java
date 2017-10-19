@@ -118,7 +118,8 @@ public final class TaskNodeSelectionUtils {
                                                     true,
                                                     buildConfig.isOverrideWorkspaceSettings(),
                                                     buildConfig.isOfflineMode(),
-                                                    buildConfig.isBuildScansEnabled());
+                                                    buildConfig.isBuildScansEnabled(),
+                                                    buildConfig.isAutoRefresh());
     }
 
     private static String projectDirectoryExpression(File rootProjectDir) {

@@ -69,6 +69,7 @@ public final class GradleProjectPreferencePage extends PropertyPage {
         this.gradleProjectSettingsComposite.getOverrideBuildSettingsCheckbox().setSelection(overrideWorkspaceSettings);
         this.gradleProjectSettingsComposite.getBuildScansCheckbox().setSelection(buildConfig.isBuildScansEnabled());
         this.gradleProjectSettingsComposite.getOfflineModeCheckbox().setSelection(buildConfig.isOfflineMode());
+        this.gradleProjectSettingsComposite.getAutoRefreshCheckbox().setSelection(buildConfig.isAutoRefresh());
         this.gradleProjectSettingsComposite.updateEnablement();
     }
 
@@ -89,7 +90,8 @@ public final class GradleProjectPreferencePage extends PropertyPage {
            this.gradleProjectSettingsComposite.getGradleDistributionGroup().getGradleDistribution().toGradleDistribution(),
            this.gradleProjectSettingsComposite.getGradleUserHomeGroup().getGradleUserHome(),
            this.gradleProjectSettingsComposite.getBuildScansCheckbox().getSelection(),
-           this.gradleProjectSettingsComposite.getOfflineModeCheckbox().getSelection());
+           this.gradleProjectSettingsComposite.getOfflineModeCheckbox().getSelection(),
+           this.gradleProjectSettingsComposite.getAutoRefreshCheckbox().getSelection());
        manager.saveBuildConfiguration(updatedConfig);
        return true;
     }

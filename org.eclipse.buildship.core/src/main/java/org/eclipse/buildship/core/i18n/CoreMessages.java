@@ -70,6 +70,7 @@ public final class CoreMessages extends NLS {
     public static String Preference_Label_OfflineMode;
     public static String Preference_Label_BuildScans;
     public static String Preference_Label_BuildScansHover;
+    public static String Preference_Label_AutoRefreshHover;
 
     static {
         // initialize resource bundle

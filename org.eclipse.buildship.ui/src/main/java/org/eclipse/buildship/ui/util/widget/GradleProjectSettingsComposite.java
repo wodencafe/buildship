@@ -29,6 +29,7 @@ import org.eclipse.buildship.core.i18n.CoreMessages;
  * <li>Gradle user home</li>
  * <li>Build scans enablement</li>
  * <li>Offline mode enablement</li>
+ * <li>Automatic refresh enablement</li>
  * </ul>
  *
  * @author Donat Csikos
@@ -44,6 +45,7 @@ public final class GradleProjectSettingsComposite extends Composite {
     private GradleUserHomeGroup gradleUserHomeGroup;
     private Button offlineModeCheckbox;
     private Button buildScansCheckbox;
+    private Button autoRefreshCheckbox;
 
     private GradleProjectSettingsComposite(Composite parent, boolean hasOverrideCheckbox, String overrideCheckboxLabel, String configureParentPrefsLinkLabel) {
         super(parent, SWT.NONE);
@@ -62,6 +64,7 @@ public final class GradleProjectSettingsComposite extends Composite {
         createGradleUserHomeGroup(this);
         createOfflineModeCheckbox(this);
         createBuildScansCheckbox(this);
+        createAutoRefreshCheckbox(this);
 
         addListeners();
 
@@ -109,6 +112,13 @@ public final class GradleProjectSettingsComposite extends Composite {
         HoverText.createAndAttach(this.buildScansCheckbox, CoreMessages.Preference_Label_BuildScansHover);
     }
 
+    private void createAutoRefreshCheckbox(Composite parent) {
+        this.autoRefreshCheckbox = new Button(parent, SWT.CHECK);
+        this.autoRefreshCheckbox.setText("Automatic refresh");
+        GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).span(2, 1).applyTo(this.autoRefreshCheckbox);
+        HoverText.createAndAttach(this.autoRefreshCheckbox, CoreMessages.Preference_Label_AutoRefreshHover);
+    }
+
     private void addListeners() {
         if (this.overrideSettingsCheckbox != null) {
             this.overrideSettingsCheckbox.addSelectionListener(new SelectionListener() {
@@ -133,6 +143,7 @@ public final class GradleProjectSettingsComposite extends Composite {
             this.gradleUserHomeGroup.setEnabled(enabled);
             this.offlineModeCheckbox.setEnabled(enabled);
             this.buildScansCheckbox.setEnabled(enabled);
+            this.autoRefreshCheckbox.setEnabled(enabled);
         }
     }
 
@@ -163,6 +174,10 @@ public final class GradleProjectSettingsComposite extends Composite {
 
     public Button getBuildScansCheckbox() {
         return this.buildScansCheckbox;
+    }
+
+    public Button getAutoRefreshCheckbox() {
+        return this.autoRefreshCheckbox;
     }
 
     public static GradleProjectSettingsComposite withOverrideCheckbox(Composite parent, String overrideCheckboxLabel, String configureParentPrefsLinkLabel) {

@@ -86,6 +86,15 @@ class DefaultBuildConfiguration implements BuildConfiguration {
     }
 
     @Override
+    public boolean isAutoRefresh() {
+        if (this.properties.isOverrideWorkspaceSettings()) {
+            return this.properties.isAutoRefresh();
+        } else {
+            return this.workspaceConfiguration.isAutoRefresh();
+        }
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof DefaultBuildConfiguration) {
             DefaultBuildConfiguration other = (DefaultBuildConfiguration) obj;

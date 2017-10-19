@@ -49,6 +49,7 @@ public final class GradleRunConfigurationAttributes {
     private static final String OVERRIDE_BUILD_SETTINGS = "override_workspace_settings";
     private static final String OFFLINE_MODE = "offline_mode";
     private static final String BUILD_SCANS_ENABLED = "build_scans_enabled";
+    private static final String AUTO_REFRESH = "auto_refresh";
 
     private final ImmutableList<String> tasks;
     private final String workingDirExpression;
@@ -62,9 +63,10 @@ public final class GradleRunConfigurationAttributes {
     private final boolean overrideBuildSettings;
     private final boolean isOffline;
     private final boolean isBuildScansEnabled;
+    private final boolean isAutoRefresh;
 
     public GradleRunConfigurationAttributes(List<String> tasks, String workingDirExpression, String gradleDistribution, String gradleUserHomeExpression,
-            String javaHomeExpression, List<String> jvmArgumentExpressions, List<String> argumentExpressions, boolean showExecutionView, boolean showConsoleView, boolean overrideWorkspaceSettings, boolean isOffline, boolean isBuildScansEnabled) {
+            String javaHomeExpression, List<String> jvmArgumentExpressions, List<String> argumentExpressions, boolean showExecutionView, boolean showConsoleView, boolean overrideWorkspaceSettings, boolean isOffline, boolean isBuildScansEnabled, boolean isAutoRefresh) {
         this.tasks = ImmutableList.copyOf(tasks);
         this.workingDirExpression = Preconditions.checkNotNull(workingDirExpression);
         this.gradleDistribution = gradleDistribution;
@@ -77,6 +79,7 @@ public final class GradleRunConfigurationAttributes {
         this.overrideBuildSettings = overrideWorkspaceSettings;
         this.isOffline = isOffline;
         this.isBuildScansEnabled = isBuildScansEnabled;
+        this.isAutoRefresh = isAutoRefresh;
     }
 
     public ImmutableList<String> getTasks() {
@@ -182,6 +185,10 @@ public final class GradleRunConfigurationAttributes {
         return this.isBuildScansEnabled;
     }
 
+    public boolean isAutoRefresh() {
+        return this.isAutoRefresh;
+    }
+
     public boolean hasSameUniqueAttributes(ILaunchConfiguration launchConfiguration) {
         // reuse an existing run configuration if the working directory and the tasks are the same,
         // regardless of the other settings of the launch configuration
@@ -206,6 +213,7 @@ public final class GradleRunConfigurationAttributes {
         applyOverrideBuildSettings(this.overrideBuildSettings, launchConfiguration);
         applyOfflineMode(this.isOffline, launchConfiguration);
         applyBuildScansEnabled(this.isBuildScansEnabled, launchConfiguration);
+        applyAutoRefresh(this.isAutoRefresh, launchConfiguration);
     }
 
     public static void applyTasks(List<String> tasks, ILaunchConfigurationWorkingCopy launchConfiguration) {
@@ -260,6 +268,10 @@ public final class GradleRunConfigurationAttributes {
         launchConfiguration.setAttribute(BUILD_SCANS_ENABLED, buildScansEnabled);
     }
 
+    public static void applyAutoRefresh(boolean autoRefresh, ILaunchConfigurationWorkingCopy launchConfiguration) {
+        launchConfiguration.setAttribute(AUTO_REFRESH, autoRefresh);
+    }
+
     public static GradleRunConfigurationAttributes from(ILaunchConfiguration launchConfiguration) {
         Preconditions.checkNotNull(launchConfiguration);
         List<String> tasks = getListAttribute(TASKS, launchConfiguration);
@@ -274,8 +286,9 @@ public final class GradleRunConfigurationAttributes {
         boolean overrideWorkspaceSettings = getBooleanAttribute(OVERRIDE_BUILD_SETTINGS, false, launchConfiguration);
         boolean isOffline = getBooleanAttribute(OFFLINE_MODE, false, launchConfiguration);
         boolean isBuildScansEnabled = getBooleanAttribute(BUILD_SCANS_ENABLED, false, launchConfiguration);
+        boolean isAutoRefresh = getBooleanAttribute(AUTO_REFRESH, false, launchConfiguration);
         return new GradleRunConfigurationAttributes(tasks, workingDirExpression, gradleDistribution, gradleUserHomeExpression, javaHomeExpression, jvmArgumentExpressions, argumentExpressions,
-                showExecutionView, showConsoleView, overrideWorkspaceSettings, isOffline, isBuildScansEnabled);
+                showExecutionView, showConsoleView, overrideWorkspaceSettings, isOffline, isBuildScansEnabled, isAutoRefresh);
     }
 
     private static List<String> getListAttribute(String name, ILaunchConfiguration configuration) {
@@ -316,7 +329,8 @@ public final class GradleRunConfigurationAttributes {
                     && Objects.equal(this.showConsoleView, other.showConsoleView)
                     && Objects.equal(this.overrideBuildSettings, other.overrideBuildSettings)
                     && Objects.equal(this.isOffline, other.isOffline)
-                    && Objects.equal(this.isBuildScansEnabled, other.isBuildScansEnabled);
+                    && Objects.equal(this.isBuildScansEnabled, other.isBuildScansEnabled)
+                    && Objects.equal(this.isAutoRefresh, other.isAutoRefresh);
         }
         return false;
     }
@@ -333,7 +347,8 @@ public final class GradleRunConfigurationAttributes {
                     this.showConsoleView,
                     this.overrideBuildSettings,
                     this.isOffline,
-                    this.isBuildScansEnabled);
+                    this.isBuildScansEnabled,
+                    this.isAutoRefresh);
     }
 
 }

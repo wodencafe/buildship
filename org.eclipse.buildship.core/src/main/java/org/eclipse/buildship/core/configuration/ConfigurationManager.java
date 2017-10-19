@@ -29,7 +29,7 @@ public interface ConfigurationManager {
 
     BuildConfiguration createBuildConfiguration(File rootProjectDirectory, boolean overrideWorkspaceSettings,
                                                 GradleDistribution gradleDistribution, File gradleUserHome,
-                                                boolean buildScansEnabled, boolean offlineMode);
+                                                boolean buildScansEnabled, boolean offlineMode, boolean autoRefresh);
 
     BuildConfiguration loadBuildConfiguration(File rootProject);
 
@@ -54,5 +54,5 @@ public interface ConfigurationManager {
                                             List<String> arguments, boolean showConsoleView,
                                             boolean showExecutionsView, boolean overrideBuildSettings,
                                             GradleDistribution gradleDistribution, File gradleUserHome,
-                                            boolean buildScansEnabled, boolean offlineMode);
+                                            boolean buildScansEnabled, boolean offlineMode, boolean autoRefresh);
 }

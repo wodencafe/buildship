@@ -33,8 +33,9 @@ final class RunConfigurationProperties {
     private final boolean overrideBuildSettings;
     private final boolean buildScansEnabled;
     private final boolean offlineMode;
+    private final boolean autoRefresh;
 
-    public RunConfigurationProperties(List<String> tasks, GradleDistribution gradleDistribution, File gradleUserHome, File javaHome, List<String> jvmArguments, List<String> arguments, boolean showConsoleView, boolean showExecutionsView, boolean overrideBuildSettings, boolean buildScansEnabled, boolean offlineMode) {
+    public RunConfigurationProperties(List<String> tasks, GradleDistribution gradleDistribution, File gradleUserHome, File javaHome, List<String> jvmArguments, List<String> arguments, boolean showConsoleView, boolean showExecutionsView, boolean overrideBuildSettings, boolean buildScansEnabled, boolean offlineMode, boolean autoRefresh) {
         this.tasks = tasks;
         this.gradleDistribution = gradleDistribution;
         this.gradleUserHome = gradleUserHome;
@@ -46,6 +47,7 @@ final class RunConfigurationProperties {
         this.overrideBuildSettings = overrideBuildSettings;
         this.buildScansEnabled = buildScansEnabled;
         this.offlineMode = offlineMode;
+        this.autoRefresh = autoRefresh;
     }
 
     public List<String> getTasks() {
@@ -92,6 +94,10 @@ final class RunConfigurationProperties {
         return this.offlineMode;
     }
 
+    public boolean isAutoRefresh() {
+        return this.autoRefresh;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof RunConfigurationProperties) {
@@ -106,13 +112,14 @@ final class RunConfigurationProperties {
                     && Objects.equal(this.showExecutionsView, other.showExecutionsView)
                     && Objects.equal(this.overrideBuildSettings, other.overrideBuildSettings)
                     && Objects.equal(this.buildScansEnabled, other.buildScansEnabled)
-                    && Objects.equal(this.offlineMode, other.offlineMode);
+                    && Objects.equal(this.offlineMode, other.offlineMode)
+                    && Objects.equal(this.autoRefresh, other.autoRefresh);
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(this.tasks, this.gradleDistribution, this.gradleUserHome, this.javaHome, this.jvmArguments, this.arguments, this.showConsoleView, this.showExecutionsView, this.overrideBuildSettings, this.buildScansEnabled, this.offlineMode);
+        return Objects.hashCode(this.tasks, this.gradleDistribution, this.gradleUserHome, this.javaHome, this.jvmArguments, this.arguments, this.showConsoleView, this.showExecutionsView, this.overrideBuildSettings, this.buildScansEnabled, this.offlineMode, this.autoRefresh);
     }
 }

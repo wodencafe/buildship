@@ -27,12 +27,14 @@ public final class WorkspaceConfiguration {
     private final File gradleUserHome;
     private final boolean gradleIsOffline;
     private final boolean buildScansEnabled;
+    private final boolean autoRefresh;
 
-    public WorkspaceConfiguration(GradleDistribution gradleDistribution, File gradleUserHome, boolean gradleIsOffline, boolean buildScansEnabled) {
+    public WorkspaceConfiguration(GradleDistribution gradleDistribution, File gradleUserHome, boolean gradleIsOffline, boolean buildScansEnabled, boolean autoRefresh) {
         this.gradleDistribution = gradleDistribution;
         this.gradleUserHome = gradleUserHome;
         this.gradleIsOffline = gradleIsOffline;
         this.buildScansEnabled = buildScansEnabled;
+        this.autoRefresh = autoRefresh;
     }
 
     public GradleDistribution getGradleDistribution() {
@@ -52,6 +54,10 @@ public final class WorkspaceConfiguration {
         return this.buildScansEnabled;
     }
 
+    public boolean isAutoRefresh() {
+        return this.autoRefresh;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof WorkspaceConfiguration) {
@@ -59,13 +65,15 @@ public final class WorkspaceConfiguration {
             return Objects.equal(this.gradleDistribution, other.gradleDistribution)
                     && Objects.equal(this.gradleUserHome, other.gradleUserHome)
                     && Objects.equal(this.gradleIsOffline, other.gradleIsOffline)
-                    && Objects.equal(this.buildScansEnabled, other.buildScansEnabled);
+                    && Objects.equal(this.buildScansEnabled, other.buildScansEnabled)
+                    && Objects.equal(this.autoRefresh, other.autoRefresh);
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(this.gradleDistribution, this.gradleUserHome, this.gradleIsOffline, this.buildScansEnabled);
+        return Objects.hashCode(this.gradleDistribution, this.gradleUserHome, this.gradleIsOffline, this.buildScansEnabled, this.autoRefresh);
     }
+
 }

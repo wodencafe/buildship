@@ -85,7 +85,8 @@ public final class GradleWorkbenchPreferencePage extends PreferencePage implemen
         File gradleUserHome = gradleUserHomeString.isEmpty() ? null : new File(gradleUserHomeString);
         boolean offlineMode = this.gradleProjectSettingsComposite.getOfflineModeCheckbox().getSelection();
         boolean buildScansEnabled = this.gradleProjectSettingsComposite.getBuildScansCheckbox().getSelection();
-        WorkspaceConfiguration workspaceConfig = new WorkspaceConfiguration(distribution, gradleUserHome, offlineMode, buildScansEnabled);
+        boolean autoRefresh = this.gradleProjectSettingsComposite.getAutoRefreshCheckbox().getSelection();
+        WorkspaceConfiguration workspaceConfig = new WorkspaceConfiguration(distribution, gradleUserHome, offlineMode, buildScansEnabled, autoRefresh);
         CorePlugin.configurationManager().saveWorkspaceConfiguration(workspaceConfig);
         return super.performOk();
     }

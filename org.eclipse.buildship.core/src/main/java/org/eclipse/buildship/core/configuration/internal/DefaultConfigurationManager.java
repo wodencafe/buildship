@@ -51,14 +51,17 @@ public class DefaultConfigurationManager implements ConfigurationManager {
     }
 
     @Override
-    public BuildConfiguration createBuildConfiguration(File rootProjectDirectory, boolean overrideWorkspaceSettings, GradleDistribution gradleDistribution, File gradleUserHome,
-            boolean buildScansEnabled, boolean offlineMode) {
+    public BuildConfiguration createBuildConfiguration(
+            File rootProjectDirectory, boolean overrideWorkspaceSettings, GradleDistribution gradleDistribution,
+            File gradleUserHome,
+            boolean buildScansEnabled, boolean offlineMode, boolean autoRefresh) {
         DefaultBuildConfigurationProperties persistentBuildConfigProperties = new DefaultBuildConfigurationProperties(rootProjectDirectory,
                                                                                                         gradleDistribution,
                                                                                                         gradleUserHome,
                                                                                                         overrideWorkspaceSettings,
                                                                                                         buildScansEnabled,
-                                                                                                        offlineMode);
+                                                                                                        offlineMode,
+                                                                                                        autoRefresh);
         return new DefaultBuildConfiguration(persistentBuildConfigProperties, loadWorkspaceConfiguration());
     }
 
@@ -166,7 +169,8 @@ public class DefaultConfigurationManager implements ConfigurationManager {
                     attributes.getGradleUserHome(),
                     attributes.isOverrideBuildSettings(),
                     attributes.isBuildScansEnabled(),
-                    attributes.isOffline());
+                    attributes.isOffline(),
+                    attributes.isAutoRefresh());
             BuildConfiguration buildConfiguration = new DefaultBuildConfiguration(buildConfigProperties, loadWorkspaceConfiguration());
             projectConfiguration = new DefaultProjectConfiguration(canonicalize(attributes.getWorkingDir()), buildConfiguration);
         }
@@ -180,7 +184,8 @@ public class DefaultConfigurationManager implements ConfigurationManager {
                   attributes.isShowExecutionView(),
                   attributes.isOverrideBuildSettings(),
                   attributes.isBuildScansEnabled(),
-                  attributes.isOffline());
+                  attributes.isOffline(),
+                  attributes.isAutoRefresh());
         return new DefaultRunConfiguration(projectConfiguration, runConfigProperties);
     }
 
@@ -197,12 +202,13 @@ public class DefaultConfigurationManager implements ConfigurationManager {
                 GradleDistribution.fromBuild(),
                 null,
                 false,
+                false,
                 false);
     }
 
     @Override
     public RunConfiguration createRunConfiguration(BuildConfiguration buildConfiguration, List<String> tasks, File javaHome, List<String> jvmArguments, List<String> arguments, boolean showConsoleView,
-            boolean showExecutionsView, boolean overrideBuildSettings, GradleDistribution gradleDistribution, File gradleUserHome, boolean buildScansEnabled, boolean offlineMode) {
+            boolean showExecutionsView, boolean overrideBuildSettings, GradleDistribution gradleDistribution, File gradleUserHome, boolean buildScansEnabled, boolean offlineMode, boolean autoRefresh) {
         Preconditions.checkArgument(buildConfiguration instanceof DefaultBuildConfiguration, "Unknow configuration type: ", buildConfiguration.getClass());
         ProjectConfiguration projectConfiguration = new DefaultProjectConfiguration(buildConfiguration.getRootProjectDirectory(), buildConfiguration);
         RunConfigurationProperties runConfig = new RunConfigurationProperties(tasks,
@@ -215,7 +221,8 @@ public class DefaultConfigurationManager implements ConfigurationManager {
                 showExecutionsView,
                 overrideBuildSettings,
                 buildScansEnabled,
-                offlineMode);
+                offlineMode,
+                autoRefresh);
         return new DefaultRunConfiguration(projectConfiguration, runConfig);
     }
 

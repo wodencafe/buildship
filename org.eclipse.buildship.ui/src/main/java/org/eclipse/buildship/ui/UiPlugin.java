@@ -36,6 +36,7 @@ import org.eclipse.buildship.ui.launch.ConsoleShowingLaunchListener;
 import org.eclipse.buildship.ui.launch.UiGradleLaunchConfigurationManager;
 import org.eclipse.buildship.ui.notification.DialogUserNotification;
 import org.eclipse.buildship.ui.view.execution.ExecutionShowingLaunchRequestListener;
+import org.eclipse.buildship.ui.workspace.GradleResourceChangeListener;
 import org.eclipse.buildship.ui.workspace.ShutdownListener;
 
 /**
@@ -61,6 +62,7 @@ public final class UiPlugin extends AbstractUIPlugin {
     private ConsoleShowingLaunchListener consoleShowingLaunchListener;
     private ExecutionShowingLaunchRequestListener executionShowingLaunchRequestListener;
     private ShutdownListener shutdownListener;
+    private GradleResourceChangeListener gradleResourceChangeListener;
 
     @Override
     public void start(BundleContext context) throws Exception {
@@ -81,10 +83,10 @@ public final class UiPlugin extends AbstractUIPlugin {
     private void registerServices(BundleContext context) {
         // store services with low ranking such that they can be overridden
         // during testing or the like
-        Dictionary<String, Object> preferences = new Hashtable<String, Object>();
+        Dictionary<String, Object> preferences = new Hashtable<>();
         preferences.put(Constants.SERVICE_RANKING, 1);
 
-        Dictionary<String, Object> priorityPreferences = new Hashtable<String, Object>();
+        Dictionary<String, Object> priorityPreferences = new Hashtable<>();
         priorityPreferences.put(Constants.SERVICE_RANKING, 2);
 
         // register all services (override the ProcessStreamsProvider registered in the core plugin)
@@ -115,6 +117,8 @@ public final class UiPlugin extends AbstractUIPlugin {
     }
 
     private void unregisterServices() {
+        this.gradleResourceChangeListener.close();
+
         this.gradleLaunchConfigurationService.unregister();
         this.dialogUserNotificationService.unregister();
         this.processStreamsProviderService.unregister();
@@ -131,6 +135,8 @@ public final class UiPlugin extends AbstractUIPlugin {
         CorePlugin.listenerRegistry().addEventListener(this.executionShowingLaunchRequestListener);
 
         PlatformUI.getWorkbench().addWorkbenchListener(this.shutdownListener = new ShutdownListener());
+
+        this.gradleResourceChangeListener = GradleResourceChangeListener.createAndRegister();
     }
 
     @SuppressWarnings({"cast", "RedundantCast"})
