@@ -84,6 +84,7 @@ public final class ProjectSettingsTab extends AbstractLaunchConfigurationTab {
         this.gradleProjectSettingsComposite.getOverrideBuildSettingsCheckbox().addSelectionListener(dialogUpdater);
         this.gradleProjectSettingsComposite.getOfflineModeCheckbox().addSelectionListener(dialogUpdater);
         this.gradleProjectSettingsComposite.getBuildScansCheckbox().addSelectionListener(dialogUpdater);
+        this.gradleProjectSettingsComposite.getAutoRefreshCheckbox().addSelectionListener(dialogUpdater);
         this.gradleProjectSettingsComposite.getGradleDistributionGroup().addDistributionChangedListener(dialogUpdater);
         this.gradleProjectSettingsComposite.getGradleUserHomeGroup().getGradleUserHomeText().addModifyListener(dialogUpdater);
         this.gradleProjectSettingsComposite.getParentPreferenceLink().addSelectionListener(new ProjectPreferenceOpeningSelectionListener());
@@ -97,6 +98,7 @@ public final class ProjectSettingsTab extends AbstractLaunchConfigurationTab {
         this.gradleProjectSettingsComposite.getGradleUserHomeGroup().getGradleUserHomeText().setText(Strings.nullToEmpty(this.attributes.getGradleUserHomeHomeExpression()));
         this.gradleProjectSettingsComposite.getOfflineModeCheckbox().setSelection(this.attributes.isOffline());
         this.gradleProjectSettingsComposite.getBuildScansCheckbox().setSelection(this.attributes.isBuildScansEnabled());
+        this.gradleProjectSettingsComposite.getAutoRefreshCheckbox().setSelection(this.attributes.isAutoRefresh());
         this.gradleProjectSettingsComposite.updateEnablement();
     }
 
@@ -107,6 +109,7 @@ public final class ProjectSettingsTab extends AbstractLaunchConfigurationTab {
         GradleRunConfigurationAttributes.applyGradleUserHomeExpression(this.gradleProjectSettingsComposite.getGradleUserHomeGroup().getGradleUserHomeText().getText(), configuration);
         GradleRunConfigurationAttributes.applyOfflineMode(this.gradleProjectSettingsComposite.getOfflineModeCheckbox().getSelection(), configuration);
         GradleRunConfigurationAttributes.applyBuildScansEnabled(this.gradleProjectSettingsComposite.getBuildScansCheckbox().getSelection(), configuration);
+        GradleRunConfigurationAttributes.applyAutoRefresh(this.gradleProjectSettingsComposite.getAutoRefreshCheckbox().getSelection(), configuration);
 
     }
 
